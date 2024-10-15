@@ -1,20 +1,26 @@
-
 require('dotenv').config();
-const { Bot } = require('grammy');
+const { Bot, MemorySessionStorage, session } = require('grammy');
+const { chatMembers } = require('@grammyjs/chat-members');
+const { freeStorage } = require('@grammyjs/storage-free');
+const adapter = new MemorySessionStorage();
 const bot = new Bot(process.env.BOT_API_KEY);
-bot.start();
+const { commands } = require('./commands');
+const { testCommands } = require('./testCommands');
 
+bot.use(
+	chatMembers(adapter),
+	session({
+		initial: () => ({ userList: [], count: 0 }),
+		storage: freeStorage(bot.token),
+	})
+);
 
-const start = bot.command('start', async (ctx) => {
-	await ctx.reply(
-		'Привет! Я - Frontend Interview Prep Bot 🤖 \nЯ помогу тебе подготовиться к интервью по фронтенду'
-	);
+bot.start({
+	// Make sure to specify the desired update types
+	allowed_updates: ['chat_member', 'message'],
 });
 
-const commandHear = bot.hears('HTML', async (ctx) => {
-	await ctx.reply('Какой тег используется для создания ссылки?');
-});
+bot.catch((err) => console.error(err));
 
-const help = bot.command('help', async (ctx) => {
-	await ctx.reply('Вам требуется помощь?');
-});
+commands(bot);
+testCommands(bot);
