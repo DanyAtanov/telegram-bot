@@ -10,7 +10,7 @@ const { testCommands } = require('./testCommands');
 bot.use(
 	chatMembers(adapter),
 	session({
-		initial: () => ({ userList: [], count: 0 }),
+		initial: () => ({ userList: [], lastTime: 0 }),
 		storage: freeStorage(bot.token),
 	})
 );
