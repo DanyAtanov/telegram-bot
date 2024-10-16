@@ -18,19 +18,8 @@ const commands = (bot) => {
 
 	bot.command('reg', async (ctx) => {
 		const chatMember = await ctx.chatMembers.getChatMember();
-		let isNewPlayer = true;
 
 		if (!ctx.session.userList.length) {
-			isNewPlayer = true;
-		} else {
-			for (let i = 0; i < ctx.session.userList.length - 1; i++) {
-				if (+chatMember.user.id === +ctx.session.userList[i].id) {
-					isNewPlayer = false;
-				}
-			}
-		}
-
-		if (isNewPlayer) {
 			ctx.session.userList.push({
 				id: chatMember.user.id,
 				name: chatMember.user.first_name,
@@ -41,7 +30,27 @@ const commands = (bot) => {
 				`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) присоединяется к игре!`
 			);
 		} else {
-			await ctx.reply('Вы уже в игре!');
+			let isOldPlayer;
+
+			for (let i = 0; i <= ctx.session.userList.length - 1; i++) {
+				if (+chatMember.user.id === +ctx.session.userList[i].id) {
+					isOldPlayer = true;
+				}
+			}
+
+			if (isOldPlayer) {
+				await ctx.reply('Вы уже в игре!');
+			} else {
+				ctx.session.userList.push({
+					id: chatMember.user.id,
+					name: chatMember.user.first_name,
+					nickName: chatMember.user.username,
+					wins: 0,
+				});
+				await ctx.reply(
+					`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) присоединяется к игре!`
+				);
+			}
 		}
 	});
 
