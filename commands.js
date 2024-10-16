@@ -55,7 +55,9 @@ const commands = (bot) => {
 	});
 
 	bot.hears('пидор', async (ctx) => {
-		await ctx.reply('А знаешь кто еще пидор дня?');
+		await ctx.reply(
+			`А знаешь кто еще пидор? Правильно! ${ctx.session.todayPidor.name}(@${ctx.session.todayPidor.nickName}) 😎!`
+		);
 	});
 
 	bot.command('pidor', async (ctx) => {
@@ -93,31 +95,31 @@ const commands = (bot) => {
 		}
 
 		await ctx.reply('ВНИМАНИЕ 🔥').then(() => {
-			/* 		setTimeout(() => {
+			setTimeout(() => {
 				ctx.reply('ФЕДЕРАЛЬНЫЙ РОЗЫСК ПИДОРА 🚨');
-			}, 150);
+			}, 1500);
 
 			setTimeout(() => {
 				ctx.reply('4 - спутник запущен 🛰️');
-			}, 300);
+			}, 3000);
 
 			setTimeout(() => {
 				ctx.reply('3 - сводки ФСБ проверены 🚔');
-			}, 450);
+			}, 4500);
 
 			setTimeout(() => {
 				ctx.reply('2 - твои друзья опрошены 🙅‍♂️');
-			}, 600);
+			}, 6000);
 
 			setTimeout(() => {
 				ctx.reply('1 - Пидор найден! 🐤');
-			}, 750); */
+			}, 7500);
 
 			setTimeout(() => {
 				ctx.reply(
 					`🌈 Сегодня ПИДОР дня - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
 				);
-			}, 0);
+			}, 9000);
 		});
 	});
 

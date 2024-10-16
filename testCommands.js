@@ -14,10 +14,6 @@ const testCommands = (bot) => {
 		await ctx.reply(chatMember.user);
 	});
 
-	bot.command('players', async (ctx) => {
-		await ctx.reply(`userList: ${ctx.session.userList}`);
-	});
-
 	bot.command('testList', async (ctx) => {
 		ctx.session.todayPidor = null;
 		ctx.session.winList = [];
@@ -38,11 +34,11 @@ const testCommands = (bot) => {
 		await ctx.reply('Сгенерирован список игроков для тестирования');
 	});
 
-	bot.command('test', async (ctx) => {
+	bot.command('listLength', async (ctx) => {
 		await ctx.reply(`userList.length: ${ctx.session.userList.length}`);
 	});
 
-	bot.command('test2', async (ctx) => {
+	bot.command('lastItem', async (ctx) => {
 		await ctx.reply(
 			`userList[last]: ${
 				ctx.session.userList[ctx.session.userList.length - 1].name
@@ -50,7 +46,7 @@ const testCommands = (bot) => {
 		);
 	});
 
-	bot.command('time', async (ctx) => {
+	bot.command('lastTime', async (ctx) => {
 		await ctx.reply(`lastTime: ${ctx.session.lastTime}`);
 	});
 
