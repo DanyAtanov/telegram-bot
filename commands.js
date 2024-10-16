@@ -59,36 +59,55 @@ const commands = (bot) => {
 	});
 
 	bot.command('pidor', async (ctx) => {
-		let todayPidor = choosePidor(ctx, ctx.session.userList);
-		todayPidor.wins += 1;
-		ctx.session.winList.push(todayPidor);
+		let todayPidor = await choosePidor(ctx, ctx.session.userList);
+
+		if (ctx.session.winList.length) {
+			let newWinner;
+			for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
+				if (+todayPidor.id === +ctx.session.winList[i].id) {
+					ctx.session.winList[i].wins += 1;
+					newWinner = false;
+					break;
+				} else {
+					newWinner = true;
+				}
+			}
+
+			if (newWinner) {
+				todayPidor.wins += 1;
+				ctx.session.winList.push(todayPidor);
+			}
+		} else {
+			todayPidor.wins += 1;
+			ctx.session.winList.push(todayPidor);
+		}
 
 		await ctx.reply('ВНИМАНИЕ 🔥').then(() => {
-			setTimeout(() => {
+	/* 		setTimeout(() => {
 				ctx.reply('ФЕДЕРАЛЬНЫЙ РОЗЫСК ПИДОРА 🚨');
-			}, 1500);
+			}, 150);
 
 			setTimeout(() => {
 				ctx.reply('4 - спутник запущен 🛰️');
-			}, 3000);
+			}, 300);
 
 			setTimeout(() => {
 				ctx.reply('3 - сводки ФСБ проверены 🚔');
-			}, 4500);
+			}, 450);
 
 			setTimeout(() => {
 				ctx.reply('2 - твои друзья опрошены 🙅‍♂️');
-			}, 6000);
+			}, 600);
 
 			setTimeout(() => {
 				ctx.reply('1 - Пидор найден! 🐤');
-			}, 7500);
+			}, 750); */
 
 			setTimeout(() => {
 				ctx.reply(
 					`🌈 Сегодня ПИДОР дня - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
 				);
-			}, 9000);
+			}, 0);
 		});
 	});
 
@@ -107,7 +126,7 @@ const commands = (bot) => {
 	}
 
 	function choosePidor(ctx, arr) {
-		let indexPidor = randomNumber(0, arr.length - 1);
+		let indexPidor = randomNumber(0, arr.length);
 		let pidor = ctx.session.userList[indexPidor];
 
 		return pidor;

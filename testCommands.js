@@ -18,6 +18,7 @@ const testCommands = (bot) => {
 	});
 
 	bot.command('testList', async (ctx) => {
+		ctx.session.winList = [];
 		ctx.session.lastTime = 0;
 		ctx.session.userList = [
 			{ id: 0, name: 'Владимир Путин', nickName: 'putin_test_2024', wins: 0 },
@@ -37,6 +38,14 @@ const testCommands = (bot) => {
 
 	bot.command('test', async (ctx) => {
 		await ctx.reply(`userList.length: ${ctx.session.userList.length}`);
+	});
+
+	bot.command('test2', async (ctx) => {
+		await ctx.reply(
+			`userList[last]: ${
+				ctx.session.userList[ctx.session.userList.length - 1].name
+			}`
+		);
 	});
 };
 
