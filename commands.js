@@ -61,6 +61,7 @@ const commands = (bot) => {
 	bot.command('pidor', async (ctx) => {
 		let todayPidor = choosePidor(ctx, ctx.session.userList);
 		todayPidor.wins += 1;
+		ctx.session.winList.push(todayPidor);
 
 		await ctx.reply('ВНИМАНИЕ 🔥').then(() => {
 			setTimeout(() => {
@@ -92,7 +93,13 @@ const commands = (bot) => {
 	});
 
 	bot.command('pidorstats', async (ctx) => {
-		await ctx.reply(`Результаты 🌈ПИДОР Дня: \n  `);
+		let winArr = ctx.session.winList;
+
+		const sortedArr = winArr.sort((a, b) => {
+			return b.wins - a.wins;
+		});
+
+		await ctx.reply(`Результаты 🌈ПИДОР Дня: \n ${generateStats(sortedArr)}`);
 	});
 
 	function randomNumber(min, max) {
@@ -104,6 +111,29 @@ const commands = (bot) => {
 		let pidor = ctx.session.userList[indexPidor];
 
 		return pidor;
+	}
+
+	function generateStats(arr) {
+		let message = '';
+		const gold = ' 🥇';
+		const silver = ' 🥈';
+		const bronze = ' 🥉';
+
+		for (let i = 0; i <= arr.length - 1; i++) {
+			message += `\n (${i + 1}) ${arr[i].name} (@${arr[i].nickName}) - ${
+				arr[i].wins
+			} раз(а)`;
+
+			if (i === 0) {
+				message += gold;
+			} else if (i === 1) {
+				message += silver;
+			} else if (i === 2) {
+				message += bronze;
+			}
+		}
+
+		return message;
 	}
 };
 
