@@ -3,6 +3,7 @@ const testCommands = (bot) => {
 		ctx.session.lastTime = 0;
 		ctx.session.userList = [];
 		ctx.session.winList = [];
+		ctx.session.todayPidor = null;
 
 		await ctx.reply('Очистка сессии. Данные игры обнулены.');
 	});
@@ -18,6 +19,7 @@ const testCommands = (bot) => {
 	});
 
 	bot.command('testList', async (ctx) => {
+		ctx.session.todayPidor = null;
 		ctx.session.winList = [];
 		ctx.session.lastTime = 0;
 		ctx.session.userList = [
@@ -46,6 +48,14 @@ const testCommands = (bot) => {
 				ctx.session.userList[ctx.session.userList.length - 1].name
 			}`
 		);
+	});
+
+	bot.command('time', async (ctx) => {
+		await ctx.reply(`lastTime: ${ctx.session.lastTime}`);
+	});
+
+	bot.command('todayPidor', async (ctx) => {
+		await ctx.reply(`TodayPidor: ${ctx.session.todayPidor.name}`);
 	});
 };
 
