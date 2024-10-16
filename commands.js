@@ -86,7 +86,7 @@ const commands = (bot) => {
 
 			setTimeout(() => {
 				ctx.reply(
-					`🌈 Сегодня ПИДОР дня - ${todayPidor.name} (@${todayPidor.nickName})(${todayPidor.wins}) 🥳`
+					`🌈 Сегодня ПИДОР дня - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
 				);
 			}, 9000);
 		});
@@ -134,6 +134,17 @@ const commands = (bot) => {
 		}
 
 		return message;
+	}
+
+	function isOK(ctx, time) {
+		const lastTime = ctx.session.lastTime;
+		const nowTime = Date.now();
+
+		if (nowTime - lastTime > 6.48e7) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 };
 
