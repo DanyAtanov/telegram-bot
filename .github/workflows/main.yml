@@ -21,4 +21,4 @@ jobs:
           git pull origin main # Вытягивание последних изменений из ветки main
           git status # Проверка состояния git-репозитория
           npm install --only=prod # Установка только продакшн-зависимостей
-          pm2 restart telegram-bot # Перезапуск процесса tg-bot с помощью PM2
+          pm2 restart index.js # Перезапуск процесса tg-bot с помощью PM2
