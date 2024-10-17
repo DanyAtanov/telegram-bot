@@ -51,7 +51,7 @@ const testCommands = (bot) => {
 	});
 
 	bot.command('testAutoDeploy', async (ctx) => {
-		await ctx.reply('Ура! Автодеплой работает!');
+		await ctx.reply('Ура!!! Автодеплой работает! 🥹');
 	});
 
 	bot.command('todayPidor', async (ctx) => {
