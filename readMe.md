@@ -6,4 +6,4 @@
 
 1) ssh root@217.12.37.236
 2) cd ~/telegram-bot
-3) node index.js
+3) pm2 start index.js
