@@ -112,7 +112,7 @@ const commands = (bot) => {
 			}, 6000);
 
 			setTimeout(() => {
-				ctx.reply('1 - Попался! 🐔');
+				ctx.reply('1 - Пидор найден! 🐔');
 			}, 7500);
 
 			setTimeout(() => {
