@@ -1,4 +1,24 @@
+/**
+ * Сессия
+ * @param {object} ctx.session - Хранилище данных сессии
+ * 
+ * @param {array} ctx.session.userList - Массив объектов зарегистрированных игроков
+ * @param {array} ctx.session.winList - Массив объектов победителей
+ * @param {number} ctx.session.lastTime - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлого розыгрыша
+ * @param {object} ctx.session.todayPidor - Объект с данными пидора дня
+ * 
+ * Объект пользователя в userList
+ * @param {object} ctx.session.userList[i] - Хранилище данных пользователя
+ * 
+ * @param {number} ctx.session.userList[i].id - индентификатор пользователя
+ * @param {string} ctx.session.userList[i].user - имя
+ * @param {string} ctx.session.userList[i].userName - никнейм
+ * @param {number} ctx.session.userList[i].wins - количество побед
+ * 
+ */
+
 const commands = (bot) => {
+	// Команды, которые отображаются в меню бота
 	bot.api.setMyCommands([
 		{ command: 'reg', description: 'Учавствовать в розыгрыше' },
 		{ command: 'pidor', description: 'Запустить лотерею' },
