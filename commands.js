@@ -133,11 +133,18 @@ const commands = (bot) => {
 		await ctx.reply(`Результаты 🌈ПИДОР Дня: \n ${generateStats(sortedArr)}`);
 	});
 
+	bot.command('delete', async (ctx) => {
+
+		await ctx.reply(`Собрался сбежать с поля боя? Но не тут то было. Терпи!`);
+	});
+
+	// от min (включительно) до max (не включительно)
 	function randomNumber(min, max) {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 
 	function choosePidor(ctx, arr) {
+		// берем длину массива, т.к. max - не включительно
 		let indexPidor = randomNumber(0, arr.length);
 		let pidor = ctx.session.userList[indexPidor];
 

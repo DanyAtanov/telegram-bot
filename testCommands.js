@@ -50,10 +50,6 @@ const testCommands = (bot) => {
 		await ctx.reply(`lastTime: ${ctx.session.lastTime}`);
 	});
 
-	bot.command('testAutoDeploy', async (ctx) => {
-		await ctx.reply('Ура!!! Автодеплой работает! 🥹');
-	});
-
 	bot.command('todayPidor', async (ctx) => {
 		await ctx.reply(`TodayPidor: ${ctx.session.todayPidor.name}`);
 	});
