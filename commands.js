@@ -62,12 +62,12 @@ const commands = (bot) => {
 
 	bot.command('pidor', async (ctx) => {
 		const now = Date.now();
-		if (!isOK(ctx, now)) {
+		/* if (!isOK(ctx, now)) {
 			await ctx.reply(
 				`Сегодня 🌈ПИДОР дня - ${ctx.session.todayPidor.name}(@${ctx.session.todayPidor.nickName})`
 			);
 			return;
-		}
+		} */
 		ctx.session.lastTime = now;
 
 		let todayPidor = await choosePidor(ctx, ctx.session.userList);
