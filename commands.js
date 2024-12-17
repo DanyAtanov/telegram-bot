@@ -138,7 +138,7 @@ const commands = (bot) => {
 		await ctx.reply(`Собрался сбежать с поля боя? Но не тут то было. Терпи!`);
 	});
 
-	// от min (включительно) до max (не включительно)
+	// от min (включительно) до max (невключительно)
 	function randomNumber(min, max) {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
