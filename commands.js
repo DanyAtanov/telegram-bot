@@ -154,8 +154,20 @@ const commands = (bot) => {
 	});
 
 	bot.command('delete', async (ctx) => {
+		const chatMember = await ctx.chatMembers.getChatMember();
+		let isOldPlayer;
 
-		await ctx.reply(`Собрался сбежать с поля боя? Но не тут то было. Терпи!`);
+		for (let i = 0; i <= ctx.session.userList.length - 1; i++) {
+			if (+chatMember.user.id === +ctx.session.userList[i].id) {
+				isOldPlayer = true;
+			}
+		}
+
+		if (isOldPlayer) {
+			await ctx.reply(`Собрался сбежать с поля боя? Но не тут то было. Терпи! Ты в игре!`);
+		} else {
+			await ctx.reply(`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name} (@${chatMember.user.username}) - настоящий пидор! 🤡`);
+		}
 	});
 
 	// от min (включительно) до max (невключительно)
