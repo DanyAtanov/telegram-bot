@@ -53,6 +53,10 @@ const testCommands = (bot) => {
 	bot.command('todayPidor', async (ctx) => {
 		await ctx.reply(`TodayPidor: ${ctx.session.todayPidor.name}`);
 	});
+
+	bot.command('getSessionKey', async (ctx) => {
+		await ctx.reply(`SessionKey: ${ctx.ctx.chat?.id.toString()}`);
+	});
 };
 
 module.exports.testCommands = testCommands;
