@@ -55,7 +55,7 @@ const testCommands = (bot) => {
 	});
 
 	bot.command('getSessionKey', async (ctx) => {
-		await ctx.reply(`SessionKey: ${ctx.ctx.chat?.id.toString()}`);
+		await ctx.reply(`SessionKey: ${ctx.chat?.id.toString()}`);
 	});
 };
 
