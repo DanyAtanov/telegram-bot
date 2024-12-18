@@ -17,6 +17,8 @@
  * 
  */
 
+require('dotenv').config();
+
 const commands = (bot) => {
 	// Команды, которые отображаются в меню бота
 	bot.api.setMyCommands([
@@ -207,6 +209,8 @@ const commands = (bot) => {
 	}
 
 	function isOK(ctx, time) {
+		if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
+		
 		const lastTime = ctx.session.lastTime;
 		const nowTime = Date.now();
 
