@@ -1,20 +1,20 @@
 /**
  * Сессия
  * @param {object} ctx.session - Хранилище данных сессии
- * 
+ *
  * @param {array} ctx.session.userList - Массив объектов зарегистрированных игроков
  * @param {array} ctx.session.winList - Массив объектов победителей
  * @param {number} ctx.session.lastTime - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлого розыгрыша
  * @param {object} ctx.session.todayPidor - Объект с данными пидора дня
- * 
+ *
  * Объект пользователя в userList
  * @param {object} ctx.session.userList[i] - Хранилище данных пользователя
- * 
+ *
  * @param {number} ctx.session.userList[i].id - индентификатор пользователя
  * @param {string} ctx.session.userList[i].user - имя
  * @param {string} ctx.session.userList[i].userName - никнейм
  * @param {number} ctx.session.userList[i].wins - количество побед
- * 
+ *
  */
 
 require('dotenv').config();
@@ -117,31 +117,37 @@ const commands = (bot) => {
 		}
 
 		await ctx.reply('ВНИМАНИЕ 🔥').then(() => {
-			setTimeout(() => {
-				ctx.reply('ФЕДЕРАЛЬНЫЙ РОЗЫСК ПИДОРА 🚨');
-			}, 1500);
-
-			setTimeout(() => {
-				ctx.reply('4 - спутники запущены 🛰️');
-			}, 3000);
-
-			setTimeout(() => {
-				ctx.reply('3 - сводки ФСБ проверены 🚔');
-			}, 4500);
-
-			setTimeout(() => {
-				ctx.reply('2 - соцсети просканированы 🙅‍♂️');
-			}, 6000);
-
-			setTimeout(() => {
-				ctx.reply('1 - Пидор найден! 🐔');
-			}, 7500);
-
-			setTimeout(() => {
+			if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) {
 				ctx.reply(
 					`🌈 Сегодня ПИДОР дня - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
 				);
-			}, 9000);
+			} else {
+				setTimeout(() => {
+					ctx.reply('ФЕДЕРАЛЬНЫЙ РОЗЫСК ПИДОРА 🚨');
+				}, 1500);
+
+				setTimeout(() => {
+					ctx.reply('4 - спутники запущены 🛰️');
+				}, 3000);
+
+				setTimeout(() => {
+					ctx.reply('3 - сводки ФСБ проверены 🚔');
+				}, 4500);
+
+				setTimeout(() => {
+					ctx.reply('2 - соцсети просканированы 🙅‍♂️');
+				}, 6000);
+
+				setTimeout(() => {
+					ctx.reply('1 - Пидор найден! 🐔');
+				}, 7500);
+
+				setTimeout(() => {
+					ctx.reply(
+						`🌈 Сегодня ПИДОР дня - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
+					);
+				}, 9000);
+			}
 		});
 	});
 
@@ -166,9 +172,13 @@ const commands = (bot) => {
 		}
 
 		if (isOldPlayer) {
-			await ctx.reply(`Собрался сбежать с поля боя? Но не тут то было. Терпи! Ты в игре!`);
+			await ctx.reply(
+				`Собрался сбежать с поля боя? Но не тут то было. Терпи! Ты в игре!`
+			);
 		} else {
-			await ctx.reply(`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name} (@${chatMember.user.username}) - настоящий пидор! 🤡`);
+			await ctx.reply(
+				`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name} (@${chatMember.user.username}) - настоящий пидор! 🤡`
+			);
 		}
 	});
 
@@ -210,7 +220,7 @@ const commands = (bot) => {
 
 	function isOK(ctx, time) {
 		if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
-		
+
 		const lastTime = ctx.session.lastTime;
 		const nowTime = Date.now();
 
