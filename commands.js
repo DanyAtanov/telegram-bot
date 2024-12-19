@@ -4,7 +4,10 @@
  *
  * @param {array} ctx.session.userList - Массив объектов зарегистрированных игроков
  * @param {array} ctx.session.winList - Массив объектов победителей
+ * currentMonthWinList
+ * lastMonthWinList
  * @param {number} ctx.session.lastTime - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлого розыгрыша
+ * currentMonth
  * @param {object} ctx.session.todayPidor - Объект с данными пидора дня
  *
  * Объект пользователя в userList
@@ -14,7 +17,7 @@
  * @param {string} ctx.session.userList[i].user - имя
  * @param {string} ctx.session.userList[i].userName - никнейм
  * @param {number} ctx.session.userList[i].wins - количество побед
- *
+ * monthWins
  */
 
 require('dotenv').config();
@@ -47,6 +50,7 @@ const commands = (bot) => {
 				name: chatMember.user.first_name,
 				nickName: chatMember.user.username,
 				wins: 0,
+				monthWins: 0,
 			});
 			await ctx.reply(
 				`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) присоединяется к игре!`
@@ -68,6 +72,7 @@ const commands = (bot) => {
 					name: chatMember.user.first_name,
 					nickName: chatMember.user.username,
 					wins: 0,
+					monthWins: 0,
 				});
 				await ctx.reply(
 					`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) присоединяется к игре!`
@@ -84,15 +89,38 @@ const commands = (bot) => {
 
 	bot.command('pidor', async (ctx) => {
 		const now = Date.now();
+
+		if (!ctx.session.userList.length) {
+			await ctx.reply(
+				`Пидоров пока нет 😔 \n \n /reg - присоединиться к вечеринки`
+			);
+
+			return;
+		}
+
+		if (ctx.session.currentMonth) {
+			if (ctx.session.currentMonth !== getMonth().monthIndex) {
+				ctx.session.currentMonth = new Date(now).getUTCMonth();
+				ctx.session.lastMonthWinList = structuredClone(currentMonthWinList);
+				ctx.session.currentMonthWinList.length = 0;
+			}
+		} else {
+			ctx.session.currentMonth = new Date(now).getUTCMonth();
+			ctx.session.currentMonthWinList = [];
+			ctx.session.lastMonthWinList = [];
+		}
+
 		if (!isOK(ctx, now)) {
 			await ctx.reply(
 				`Сегодня 🌈ПИДОР дня - ${ctx.session.todayPidor.name}(@${ctx.session.todayPidor.nickName})`
 			);
 			return;
 		}
+
 		ctx.session.lastTime = now;
 
 		let todayPidor = await choosePidor(ctx, ctx.session.userList);
+
 		ctx.session.todayPidor = todayPidor;
 
 		if (ctx.session.winList.length) {
@@ -100,6 +128,10 @@ const commands = (bot) => {
 			for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
 				if (+todayPidor.id === +ctx.session.winList[i].id) {
 					ctx.session.winList[i].wins += 1;
+					if (!ctx.session.currentMonthWinList[i].monthWins) {
+						ctx.session.currentMonthWinList[i].monthWins = 0;
+					}
+					ctx.session.currentMonthWinList[i].monthWins += 1;
 					newWinner = false;
 					break;
 				} else {
@@ -109,11 +141,15 @@ const commands = (bot) => {
 
 			if (newWinner) {
 				todayPidor.wins += 1;
+				todayPidor.monthWins += 1;
 				ctx.session.winList.push(todayPidor);
+				ctx.session.currentMonthWinList.push(todayPidor);
 			}
 		} else {
 			todayPidor.wins += 1;
+			todayPidor.monthWins += 1;
 			ctx.session.winList.push(todayPidor);
+			ctx.session.currentMonthWinList.push(todayPidor);
 		}
 
 		await ctx.reply('ВНИМАНИЕ 🔥').then(() => {
@@ -159,6 +195,40 @@ const commands = (bot) => {
 		});
 
 		await ctx.reply(`Результаты 🌈ПИДОР Дня: \n ${generateStats(sortedArr)}`);
+	});
+
+	bot.command('monthstats', async (ctx) => {
+		let winArr = ctx.session.currentMonthWinList;
+
+		const sortedArr = winArr.sort((a, b) => {
+			return b.monthWins - a.monthWins;
+		});
+
+		await ctx.reply(
+			`Топ пидоров за ${getMonth().monthString}: \n ${generateMonthStats(
+				sortedArr
+			)}`
+		);
+	});
+
+	bot.command('lastmonthstats', async (ctx) => {
+		let winArr = ctx.session.lastMonthWinList;
+
+		if (winArr.length) {
+			const sortedArr = winArr.sort((a, b) => {
+				return b.monthWins - a.monthWins;
+			});
+
+			await ctx.reply(
+				`Топ пидоров за ${getMonth().lastMonth}: \n ${generateMonthStats(
+					sortedArr
+				)}`
+			);
+		} else {
+			await ctx.reply(
+				`Статистика за прошлый месяц пока не доступна`
+			);
+		}
 	});
 
 	bot.command('delete', async (ctx) => {
@@ -218,6 +288,29 @@ const commands = (bot) => {
 		return message;
 	}
 
+	function generateMonthStats(arr) {
+		let message = '';
+		const gold = ' 🥇';
+		const silver = ' 🥈';
+		const bronze = ' 🥉';
+
+		for (let i = 0; i <= arr.length - 1; i++) {
+			message += `\n (${i + 1}) ${arr[i].name} (@${arr[i].nickName}) - ${
+				arr[i].monthWins
+			} раз(а)`;
+
+			if (i === 0) {
+				message += gold;
+			} else if (i === 1) {
+				message += silver;
+			} else if (i === 2) {
+				message += bronze;
+			}
+		}
+
+		return message;
+	}
+
 	function isOK(ctx, time) {
 		if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
 
@@ -229,6 +322,30 @@ const commands = (bot) => {
 		} else {
 			return false;
 		}
+	}
+
+	function getMonth() {
+		const monthList = [
+			'Январь',
+			'Февраль',
+			'Март',
+			'Апрель',
+			'Май',
+			'Июнь',
+			'Июль',
+			'Август',
+			'Сентябрь',
+			'Октябрь',
+			'Ноябрь',
+			'Декабрь',
+		];
+		let month = {
+			monthString: monthList[new Date(Date.now()).getUTCMonth()],
+			monthIndex: new Date(Date.now()).getUTCMonth(),
+			lastMonth: monthList[new Date(Date.now()).getUTCMonth() - 1],
+		};
+
+		return month;
 	}
 };
 
