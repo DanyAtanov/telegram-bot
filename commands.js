@@ -25,9 +25,10 @@ require('dotenv').config();
 const commands = (bot) => {
 	// Команды, которые отображаются в меню бота
 	bot.api.setMyCommands([
-		{ command: 'reg', description: 'Учавствовать в розыгрыше' },
-		{ command: 'pidor', description: 'Запустить лотерею' },
-		{ command: 'pidorstats', description: 'Результаты игры' },
+		{ command: 'reg', description: 'Присоединиться к вечеринки' },
+		{ command: 'pidor', description: 'Крутить барабан' },
+		{ command: 'monthstats', description: 'Топ пидоров за месяц' },
+		{ command: 'pidorstats', description: 'Доска почета' },
 		{ command: 'delete', description: 'Сбежать с поля боя' },
 	]);
 
