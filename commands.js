@@ -129,7 +129,7 @@ const commands = (bot) => {
 			for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
 				if (+todayPidor.id === +ctx.session.winList[i].id) {
 					ctx.session.winList[i].wins += 1;
-					if (!ctx.session.currentMonthWinList[i].monthWins) {
+					if (!ctx.session.currentMonthWinList[i].hasOwnProperty('monthWins')) {
 						ctx.session.currentMonthWinList[i].monthWins = 0;
 					}
 					ctx.session.currentMonthWinList[i].monthWins += 1;
