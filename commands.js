@@ -129,8 +129,29 @@ const commands = (bot) => {
 			for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
 				if (+todayPidor.id === +ctx.session.winList[i].id) {
 					ctx.session.winList[i].wins += 1;
-					if (!ctx.session.currentMonthWinList[i].hasOwnProperty('monthWins')) {
-						ctx.session.currentMonthWinList[i].monthWins = 0;
+					newWinner = false;
+					break;
+				} else {
+					newWinner = true;
+				}
+			}
+
+			if (newWinner) {
+				todayPidor.wins += 1;
+				ctx.session.winList.push(todayPidor);
+			}
+		} else {
+			todayPidor.wins += 1;
+			ctx.session.winList.push(todayPidor);
+		}
+
+		//за месяц
+		if (ctx.session.currentMonthWinList.length) {
+			let newWinner;
+			for (let i = 0; i <= ctx.session.currentMonthWinList.length - 1; i++) {
+				if (+todayPidor.id === +ctx.session.currentMonthWinList[i].id) {
+					if (!ctx.session.currentMonthWinList[i].monthWins) {
+						todayPidor.monthWins = 0;
 					}
 					ctx.session.currentMonthWinList[i].monthWins += 1;
 					newWinner = false;
@@ -141,15 +162,17 @@ const commands = (bot) => {
 			}
 
 			if (newWinner) {
-				todayPidor.wins += 1;
+				if (!todayPidor.monthWins) {
+					todayPidor.monthWins = 0;
+				}
 				todayPidor.monthWins += 1;
-				ctx.session.winList.push(todayPidor);
 				ctx.session.currentMonthWinList.push(todayPidor);
 			}
 		} else {
-			todayPidor.wins += 1;
+			if (!todayPidor.monthWins) {
+				todayPidor.monthWins = 0;
+			}
 			todayPidor.monthWins += 1;
-			ctx.session.winList.push(todayPidor);
 			ctx.session.currentMonthWinList.push(todayPidor);
 		}
 
@@ -226,9 +249,7 @@ const commands = (bot) => {
 				)}`
 			);
 		} else {
-			await ctx.reply(
-				`Статистика за прошлый месяц пока не доступна`
-			);
+			await ctx.reply(`Статистика за прошлый месяц пока не доступна`);
 		}
 	});
 
