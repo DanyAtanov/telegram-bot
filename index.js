@@ -3,7 +3,9 @@ const { Bot, MemorySessionStorage, session } = require('grammy');
 const { chatMembers } = require('@grammyjs/chat-members');
 const { freeStorage } = require('@grammyjs/storage-free');
 const adapter = new MemorySessionStorage();
-const bot = new Bot(process.env.BOT_API_KEY);
+const bot = new Bot(process.env.BOT_API_KEY, {
+	client: { apiRoot: "https://tgrasp.ru" }
+});
 const { commands } = require('./commands');
 const { testCommands } = require('./testCommands');
 
