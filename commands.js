@@ -6,9 +6,11 @@
  * @param {array} ctx.session.winList - Массив объектов победителей
  * @param {array} ctx.session.currentMonthWinList - Массив объектов победителей за ТЕКУЩИЙ месяц
  * @param {array} ctx.session.lastMonthWinList - Массив объектов победителей за ПРОШЛЫЙ месяц
- * @param {number} ctx.session.lastTime - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлого розыгрыша
+ * @param {number} ctx.session.lastTime - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлого розыгрыша Пидора Дня
+ * @param {number} ctx.session.lastTimeRage - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлой Трехблядской ярости
  * @param {number} ctx.session.currentMonth - Номер месяца (0 - январь)
  * @param {object} ctx.session.todayPidor - Объект с данными пидора дня
+ * @param {object} ctx.session.ragePidor - Объект с данными пидора дня
  *
  * Объект пользователя в userList
  * @param {object} ctx.session.userList[i] - Хранилище данных пользователя
@@ -211,6 +213,131 @@ const commands = (bot) => {
 		});
 	});
 
+	//! 🔥 Трехблядская ярость 🔥
+	bot.command('pidorRage', async (ctx) => {
+		const now = Date.now();
+
+		if (!ctx.session.userList.length) {
+			await ctx.reply(
+				`Пидоров пока нет 😔 \n \n /reg - присоединиться к вечеринке`
+			);
+
+			return;
+		}
+
+		if (ctx.session.currentMonth) {
+			if (ctx.session.currentMonth !== getMonth().monthIndex) {
+				ctx.session.currentMonth = new Date(now).getUTCMonth();
+				ctx.session.lastMonthWinList = structuredClone(currentMonthWinList);
+				ctx.session.currentMonthWinList.length = 0;
+			}
+		} else {
+			ctx.session.currentMonth = new Date(now).getUTCMonth();
+			ctx.session.currentMonthWinList = [];
+			ctx.session.lastMonthWinList = [];
+		}
+
+		if (!rageIsOK(ctx, now)) {
+			await ctx.reply(
+				`Трехблядская ярость доступна только раз в неделю. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+			return;
+		}
+
+		ctx.session.lastTimeRage = now;
+
+		let ragePidor = await choosePidor(ctx, ctx.session.userList);
+
+		ctx.session.ragePidor = ragePidor;
+
+		if (ctx.session.winList.length) {
+			let newWinner;
+			for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
+				if (+ragePidor.id === +ctx.session.winList[i].id) {
+					ctx.session.winList[i].wins += 3;
+					newWinner = false;
+					break;
+				} else {
+					newWinner = true;
+				}
+			}
+
+			if (newWinner) {
+				ragePidor.wins += 3;
+				ctx.session.winList.push(ragePidor);
+			}
+		} else {
+			ragePidor.wins += 3;
+			ctx.session.winList.push(ragePidor);
+		}
+
+		//за месяц
+		if (ctx.session.currentMonthWinList.length) {
+			let newWinner;
+			for (let i = 0; i <= ctx.session.currentMonthWinList.length - 1; i++) {
+				if (+ragePidor.id === +ctx.session.currentMonthWinList[i].id) {
+					if (!ctx.session.currentMonthWinList[i].monthWins) {
+						ragePidor.monthWins = 0;
+					}
+					ctx.session.currentMonthWinList[i].monthWins += 3;
+					newWinner = false;
+					break;
+				} else {
+					newWinner = true;
+				}
+			}
+
+			if (newWinner) {
+				if (!ragePidor.monthWins) {
+					ragePidor.monthWins = 0;
+				}
+				ragePidor.monthWins += 3;
+				ctx.session.currentMonthWinList.push(ragePidor);
+			}
+		} else {
+			if (!ragePidor.monthWins) {
+				ragePidor.monthWins = 0;
+			}
+			ragePidor.monthWins += 3;
+			ctx.session.currentMonthWinList.push(ragePidor);
+		}
+
+		await ctx.reply('БЕРЕГИТЕСЬ! 🆘').then(() => {
+			if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) {
+				ctx.reply(
+					`🌈 На этой неделе жертва треблядской ярости - ${ragePidor.name} (@${ragePidor.nickName}) 🥳`
+				);
+			} else {
+				setTimeout(() => {
+					ctx.reply('РАЗГОРАЕТСЯ ТРЕХБЛЯДСКАЯ ЯРОСТЬ 🔥');
+				}, 1500);
+
+				setTimeout(() => {
+					ctx.reply('4 - удаляйте историю поиска 🤳 ');
+				}, 3000);
+
+				setTimeout(() => {
+					ctx.reply('3 - прячьте жен и детей 👬');
+				}, 4500);
+
+				setTimeout(() => {
+					ctx.reply('2 - молитесь Аллаху 👳‍♂️');
+				}, 6000);
+
+				setTimeout(() => {
+					ctx.reply('1 - Пязда пришла! 🐔');
+				}, 7500);
+
+				setTimeout(() => {
+					ctx.reply(
+						`🌈🌈🌈 На этой неделе жертва ТРЕХБЛЯДСКОЙ ЯРОСТИ - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
+					);
+				}, 9000);
+			}
+		});
+	});
+	//! /Трехблядская ярость
+
 	bot.command('pidorstats', async (ctx) => {
 		let winArr = ctx.session.winList;
 
@@ -340,6 +467,19 @@ const commands = (bot) => {
 		const nowTime = Date.now();
 
 		if (nowTime - lastTime > 6.48e7) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function rageIsOK(ctx, time) {
+		if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
+
+		const lastTimeRage = ctx.session.lastTimeRage ? ctx.session.lastTimeRage : 0;
+		const nowTime = Date.now();
+
+		if ((nowTime - lastTimeRage > 5, 832e8)) {
 			return true;
 		} else {
 			return false;
