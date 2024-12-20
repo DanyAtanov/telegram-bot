@@ -4,10 +4,10 @@
  *
  * @param {array} ctx.session.userList - Массив объектов зарегистрированных игроков
  * @param {array} ctx.session.winList - Массив объектов победителей
- * currentMonthWinList
- * lastMonthWinList
+ * @param {array} ctx.session.currentMonthWinList - Массив объектов победителей за ТЕКУЩИЙ месяц
+ * @param {array} ctx.session.lastMonthWinList - Массив объектов победителей за ПРОШЛЫЙ месяц
  * @param {number} ctx.session.lastTime - Количество мс прошедших с 1 января 1970 года 00:00:00 до прошлого розыгрыша
- * currentMonth
+ * @param {number} ctx.session.currentMonth - Номер месяца (0 - январь)
  * @param {object} ctx.session.todayPidor - Объект с данными пидора дня
  *
  * Объект пользователя в userList
@@ -16,8 +16,8 @@
  * @param {number} ctx.session.userList[i].id - индентификатор пользователя
  * @param {string} ctx.session.userList[i].user - имя
  * @param {string} ctx.session.userList[i].userName - никнейм
- * @param {number} ctx.session.userList[i].wins - количество побед
- * monthWins
+ * @param {number} ctx.session.userList[i].wins - общее количество побед
+ * @param {number} ctx.session.userList[i].monthWins - количество побед за месяц
  */
 
 require('dotenv').config();
