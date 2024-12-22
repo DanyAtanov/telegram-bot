@@ -305,7 +305,7 @@ const commands = (bot) => {
 		await ctx.reply('БЕРЕГИТЕСЬ! 🆘').then(() => {
 			if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) {
 				ctx.reply(
-					`🌈 На этой неделе жертва треблядской ярости - ${ragePidor.name} (@${ragePidor.nickName}) 🥳`
+					`🌈 На этой неделе жертва треблядской ярости (+3 пидор-коина) - ${ragePidor.name} (@${ragePidor.nickName}) 🥳`
 				);
 			} else {
 				setTimeout(() => {
@@ -330,7 +330,7 @@ const commands = (bot) => {
 
 				setTimeout(() => {
 					ctx.reply(
-						`🌈🌈🌈 На этой неделе жертва ТРЕХБЛЯДСКОЙ ЯРОСТИ - ${ragePidor.name} (@${ragePidor.nickName}) 🥳`
+						`🌈🌈🌈 На этой неделе жертва ТРЕХБЛЯДСКОЙ ЯРОСТИ (+3 пидор-коина) - ${ragePidor.name} (@${ragePidor.nickName}) 🥳`
 					);
 				}, 9000);
 			}
