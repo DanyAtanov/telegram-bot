@@ -330,7 +330,7 @@ const commands = (bot) => {
 
 				setTimeout(() => {
 					ctx.reply(
-						`🌈🌈🌈 На этой неделе жертва ТРЕХБЛЯДСКОЙ ЯРОСТИ - ${todayPidor.name} (@${todayPidor.nickName}) 🥳`
+						`🌈🌈🌈 На этой неделе жертва ТРЕХБЛЯДСКОЙ ЯРОСТИ - ${ragePidor.name} (@${ragePidor.nickName}) 🥳`
 					);
 				}, 9000);
 			}
@@ -476,10 +476,12 @@ const commands = (bot) => {
 	function rageIsOK(ctx, time) {
 		if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
 
-		const lastTimeRage = ctx.session.lastTimeRage ? ctx.session.lastTimeRage : 0;
+		const lastTimeRage = ctx.session.lastTimeRage
+			? ctx.session.lastTimeRage
+			: 0;
 		const nowTime = Date.now();
 
-		if ((nowTime - lastTimeRage > 5, 832e8)) {
+		if (nowTime - lastTimeRage > (5, 832e8)) {
 			return true;
 		} else {
 			return false;
