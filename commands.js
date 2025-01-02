@@ -104,13 +104,22 @@ const commands = (bot) => {
 		if (ctx.session.currentMonth) {
 			if (ctx.session.currentMonth !== getMonth().monthIndex) {
 				ctx.session.currentMonth = new Date(now).getUTCMonth();
-				ctx.session.lastMonthWinList = structuredClone(currentMonthWinList);
+				ctx.session.lastMonthWinList = structuredClone(
+					ctx.session.currentMonthWinList
+				);
 				ctx.session.currentMonthWinList.length = 0;
 			}
 		} else {
 			ctx.session.currentMonth = new Date(now).getUTCMonth();
 			ctx.session.currentMonthWinList = [];
 			ctx.session.lastMonthWinList = [];
+
+			//test
+			for (let i = 0; i < ctx.session.userList.length; i++) {
+				const user = ctx.session.userList[i];
+
+				user.monthWins = 0;
+			}
 		}
 
 		if (!isOK(ctx, now)) {
@@ -228,7 +237,9 @@ const commands = (bot) => {
 		if (ctx.session.currentMonth) {
 			if (ctx.session.currentMonth !== getMonth().monthIndex) {
 				ctx.session.currentMonth = new Date(now).getUTCMonth();
-				ctx.session.lastMonthWinList = structuredClone(currentMonthWinList);
+				ctx.session.lastMonthWinList = structuredClone(
+					ctx.session.currentMonthWinList
+				);
 				ctx.session.currentMonthWinList.length = 0;
 			}
 		} else {
