@@ -41,6 +41,14 @@ const testCommands = (bot) => {
 		await ctx.reply(`userList.length: ${ctx.session.userList.length}`);
 	});
 
+	bot.command('monthListLength', async (ctx) => {
+		await ctx.reply(`currentMonthList.length: ${ctx.session.currentMonthWinList.length}`);
+	});
+
+	bot.command('lastMonthListLength', async (ctx) => {
+		await ctx.reply(`lastMonthList.length: ${ctx.session.lastMonthWinList.length}`);
+	});
+
 	bot.command('lastItem', async (ctx) => {
 		await ctx.reply(
 			`userList[last]: ${
