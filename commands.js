@@ -346,7 +346,7 @@ const commands = (bot) => {
 
 	bot.command('lastmonthstats', async (ctx) => {
 		checkMonth(ctx);
-		
+
 		let winArr = ctx.session.lastMonthWinList;
 
 		if (winArr.length) {
@@ -487,10 +487,14 @@ const commands = (bot) => {
 			'Ноябрь',
 			'Декабрь',
 		];
+
 		let month = {
 			monthString: monthList[new Date(Date.now()).getUTCMonth()],
 			monthIndex: new Date(Date.now()).getUTCMonth(),
-			lastMonth: monthList[new Date(Date.now()).getUTCMonth() - 1],
+			lastMonth:
+				new Date(Date.now()).getUTCMonth() !== 0
+					? monthList[new Date(Date.now()).getUTCMonth() - 1]
+					: 11,
 		};
 
 		return month;
