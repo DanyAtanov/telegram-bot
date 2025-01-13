@@ -492,7 +492,7 @@ const commands = (bot) => {
 			: 0;
 		const nowTime = Date.now();
 
-		if (nowTime - lastTimeRage > (5, 832e8)) {
+		if (nowTime - lastTimeRage > 5.832e8) {
 			return true;
 		} else {
 			return false;
