@@ -101,27 +101,7 @@ const commands = (bot) => {
 			return;
 		}
 
-		if (ctx.session.currentMonth) {
-			// Если новый месяц
-			if (ctx.session.currentMonth !== getMonth().monthIndex) {
-				ctx.session.currentMonth = new Date(now).getUTCMonth();
-				ctx.session.lastMonthWinList = structuredClone(
-					ctx.session.currentMonthWinList
-				);
-				ctx.session.currentMonthWinList.length = 0;
-			}
-		} else {
-			ctx.session.currentMonth = new Date(now).getUTCMonth();
-			ctx.session.currentMonthWinList = [];
-			ctx.session.lastMonthWinList = [];
-
-			//test
-			for (let i = 0; i < ctx.session.userList.length; i++) {
-				const user = ctx.session.userList[i];
-
-				user.monthWins = 0;
-			}
-		}
+		checkMonth(ctx, now);
 
 		if (!isOK(ctx, now)) {
 			await ctx.reply(
@@ -235,20 +215,7 @@ const commands = (bot) => {
 			return;
 		}
 
-		if (ctx.session.currentMonth) {
-			// Если новый месяц
-			if (ctx.session.currentMonth !== getMonth().monthIndex) {
-				ctx.session.currentMonth = new Date(now).getUTCMonth();
-				ctx.session.lastMonthWinList = structuredClone(
-					ctx.session.currentMonthWinList
-				);
-				ctx.session.currentMonthWinList.length = 0;
-			}
-		} else {
-			ctx.session.currentMonth = new Date(now).getUTCMonth();
-			ctx.session.currentMonthWinList = [];
-			ctx.session.lastMonthWinList = [];
-		}
+		checkMonth(ctx, now);
 
 		if (!rageIsOK(ctx, now)) {
 			await ctx.reply(
@@ -362,6 +329,8 @@ const commands = (bot) => {
 	});
 
 	bot.command('monthstats', async (ctx) => {
+		checkMonth(ctx);
+
 		let winArr = ctx.session.currentMonthWinList;
 
 		const sortedArr = winArr.sort((a, b) => {
@@ -376,6 +345,8 @@ const commands = (bot) => {
 	});
 
 	bot.command('lastmonthstats', async (ctx) => {
+		checkMonth(ctx);
+		
 		let winArr = ctx.session.lastMonthWinList;
 
 		if (winArr.length) {
@@ -523,6 +494,30 @@ const commands = (bot) => {
 		};
 
 		return month;
+	}
+
+	function checkMonth(ctx, now = Date.now()) {
+		if (ctx.session.currentMonth) {
+			// Если новый месяц
+			if (ctx.session.currentMonth !== getMonth().monthIndex) {
+				ctx.session.currentMonth = new Date(now).getUTCMonth();
+				ctx.session.lastMonthWinList = structuredClone(
+					ctx.session.currentMonthWinList
+				);
+				ctx.session.currentMonthWinList.length = 0;
+			}
+		} else {
+			ctx.session.currentMonth = new Date(now).getUTCMonth();
+			ctx.session.currentMonthWinList = [];
+			ctx.session.lastMonthWinList = [];
+
+			//test
+			for (let i = 0; i < ctx.session.userList.length; i++) {
+				const user = ctx.session.userList[i];
+
+				user.monthWins = 0;
+			}
+		}
 	}
 };
 
