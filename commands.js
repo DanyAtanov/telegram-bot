@@ -380,6 +380,115 @@ const commands = (bot) => {
 		}
 	});
 
+	bot.command('testDelete', async (ctx) => {
+		const chatMember = await ctx.chatMembers.getChatMember();
+		let isOldPlayer;
+
+		for (let i = 0; i <= ctx.session.userList.length - 1; i++) {
+			if (+chatMember.user.id === +ctx.session.userList[i].id) {
+				isOldPlayer = true;
+			}
+		}
+
+		if (isOldPlayer) {
+			ctx.session.userList = ctx.session.userList.filter(
+				(item) => item.id !== chatMember.user.id
+			);
+
+			const now = Date.now();
+
+			ctx.session.lastTimeRage = now;
+
+			let ragePidor = await choosePidor(ctx, ctx.session.userList);
+
+			ctx.session.ragePidor = ragePidor;
+
+			if (ctx.session.winList.length) {
+				let newWinner;
+				for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
+					if (+ragePidor.id === +ctx.session.winList[i].id) {
+						ctx.session.winList[i].wins += 3;
+						newWinner = false;
+						break;
+					} else {
+						newWinner = true;
+					}
+				}
+
+				if (newWinner) {
+					ragePidor.wins += 3;
+					ctx.session.winList.push(ragePidor);
+				}
+			} else {
+				ragePidor.wins += 3;
+				ctx.session.winList.push(ragePidor);
+			}
+
+			//за месяц
+			if (ctx.session.currentMonthWinList.length) {
+				let newWinner;
+				for (let i = 0; i <= ctx.session.currentMonthWinList.length - 1; i++) {
+					if (+ragePidor.id === +ctx.session.currentMonthWinList[i].id) {
+						if (!ctx.session.currentMonthWinList[i].monthWins) {
+							ragePidor.monthWins = 0;
+						}
+						ctx.session.currentMonthWinList[i].monthWins += 3;
+						newWinner = false;
+						break;
+					} else {
+						newWinner = true;
+					}
+				}
+
+				if (newWinner) {
+					if (!ragePidor.monthWins) {
+						ragePidor.monthWins = 0;
+					}
+					ragePidor.monthWins += 3;
+					ctx.session.currentMonthWinList.push(ragePidor);
+				}
+			} else {
+				if (!ragePidor.monthWins) {
+					ragePidor.monthWins = 0;
+				}
+				ragePidor.monthWins += 3;
+				ctx.session.currentMonthWinList.push(ragePidor);
+			}
+
+			await ctx
+				.reply(
+					`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) сбегает с поля боя. Грядет ТРЕХБЛЯДСКАЯ ЯРОСТЬ...`
+				)
+				.then(() => {
+					setTimeout(() => {
+						ctx.reply('4 - удаляйте историю поиска 🤳 ');
+					}, 1500);
+
+					setTimeout(() => {
+						ctx.reply('3 - прячьте жен и детей 👬');
+					}, 3000);
+
+					setTimeout(() => {
+						ctx.reply('2 - молитесь Аллаху 👳‍♂️');
+					}, 4500);
+
+					setTimeout(() => {
+						ctx.reply('1 - Пязда пришла! 🐔');
+					}, 6000);
+
+					setTimeout(() => {
+						ctx.reply(
+							`Сбежавший с поля боя ${chatMember.user.first_name} (@${chatMember.user.username}) обрушил ТРЕХБЛЯДСКУЮ ЯРОСТЬ (+3 пидор-коина) на ${ragePidor.name} (@${ragePidor.nickName}) 🙏`
+						);
+					}, 9000);
+				});
+		} else {
+			await ctx.reply(
+				`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name} (@${chatMember.user.username}) - настоящий пидор! 🤡`
+			);
+		}
+	});
+
 	// от min (включительно) до max (невключительно)
 	function randomNumber(min, max) {
 		return Math.floor(Math.random() * (max - min) + min);
