@@ -102,6 +102,7 @@ const commands = (bot) => {
 		}
 
 		if (ctx.session.currentMonth) {
+			// Если новый месяц
 			if (ctx.session.currentMonth !== getMonth().monthIndex) {
 				ctx.session.currentMonth = new Date(now).getUTCMonth();
 				ctx.session.lastMonthWinList = structuredClone(
@@ -235,6 +236,7 @@ const commands = (bot) => {
 		}
 
 		if (ctx.session.currentMonth) {
+			// Если новый месяц
 			if (ctx.session.currentMonth !== getMonth().monthIndex) {
 				ctx.session.currentMonth = new Date(now).getUTCMonth();
 				ctx.session.lastMonthWinList = structuredClone(
