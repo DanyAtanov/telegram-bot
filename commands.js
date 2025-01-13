@@ -140,6 +140,7 @@ const commands = (bot) => {
 		//за месяц
 		if (ctx.session.currentMonthWinList.length) {
 			let newWinner;
+
 			for (let i = 0; i <= ctx.session.currentMonthWinList.length - 1; i++) {
 				if (+todayPidor.id === +ctx.session.currentMonthWinList[i].id) {
 					if (!ctx.session.currentMonthWinList[i].monthWins) {
@@ -154,16 +155,10 @@ const commands = (bot) => {
 			}
 
 			if (newWinner) {
-				if (!todayPidor.monthWins) {
-					todayPidor.monthWins = 0;
-				}
 				todayPidor.monthWins += 1;
 				ctx.session.currentMonthWinList.push(todayPidor);
 			}
 		} else {
-			if (!todayPidor.monthWins) {
-				todayPidor.monthWins = 0;
-			}
 			todayPidor.monthWins += 1;
 			ctx.session.currentMonthWinList.push(todayPidor);
 		}
@@ -501,7 +496,7 @@ const commands = (bot) => {
 	}
 
 	function checkMonth(ctx, now = Date.now()) {
-		if (ctx.session.currentMonth) {
+		if (ctx.session.currentMonth || ctx.session.currentMonth === 0) {
 			// Если новый месяц
 			if (ctx.session.currentMonth !== getMonth().monthIndex) {
 				ctx.session.currentMonth = new Date(now).getUTCMonth();

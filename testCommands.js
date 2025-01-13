@@ -6,6 +6,7 @@ const testCommands = (bot) => {
 		ctx.session.currentMonthWinList = [];
 		ctx.session.lastMonthWinList = [];
 		ctx.session.todayPidor = null;
+		ctx.currentMonth = null;
 
 		await ctx.reply('Очистка сессии. Данные игры обнулены.');
 	});
@@ -63,6 +64,10 @@ const testCommands = (bot) => {
 
 	bot.command('todayPidor', async (ctx) => {
 		await ctx.reply(`TodayPidor: ${ctx.session.todayPidor.name}`);
+	});
+
+	bot.command('currentMonth', async (ctx) => {
+		await ctx.reply(`currentMonth: ${ctx.session.currentMonth}`);
 	});
 
 	bot.command('getSessionKey', async (ctx) => {
