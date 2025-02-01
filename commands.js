@@ -614,6 +614,12 @@ const commands = (bot) => {
 					ctx.session.currentMonthWinList
 				);
 				ctx.session.currentMonthWinList.length = 0;
+
+				for (let i = 0; i < ctx.session.userList.length; i++) {
+					const user = ctx.session.userList[i];
+	
+					user.monthWins = 0;
+				}
 			}
 		} else {
 			ctx.session.currentMonth = new Date(now).getUTCMonth();
