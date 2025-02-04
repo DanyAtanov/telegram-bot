@@ -29,8 +29,8 @@ const commands = (bot) => {
 	bot.api.setMyCommands([
 		{ command: 'reg', description: 'Присоединиться к вечеринке' },
 		{ command: 'pidor', description: 'Крутить барабан' },
-		{ command: 'pidorRage', description: 'Трёхблядская ярость' },
-		/* { command: 'monthstats', description: 'Топ пидоров за месяц' }, */
+		{ command: 'pidorrage', description: 'Трёхблядская ярость' },
+		{ command: 'monthstats', description: 'Топ пидоров за месяц' },
 		{ command: 'pidorstats', description: 'Доска почета' },
 		{ command: 'delete', description: 'Сбежать с поля боя' },
 	]);
@@ -200,7 +200,7 @@ const commands = (bot) => {
 	});
 
 	//! 🔥 Трехблядская ярость 🔥
-	bot.command('pidorRage', async (ctx) => {
+	bot.command('pidorrage', async (ctx) => {
 		const now = Date.now();
 
 		if (!ctx.session.userList.length) {
@@ -617,7 +617,7 @@ const commands = (bot) => {
 
 				for (let i = 0; i < ctx.session.userList.length; i++) {
 					const user = ctx.session.userList[i];
-	
+
 					user.monthWins = 0;
 				}
 			}
