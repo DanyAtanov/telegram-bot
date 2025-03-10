@@ -214,9 +214,7 @@ const commands = (bot) => {
 		checkMonth(ctx, now);
 
 		if (!rageIsOK(ctx, now)) {
-			await ctx.reply(
-				`Трехблядская ярость доступна только раз в неделю. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
-			);
+			wheniIsRage(ctx, now);
 			return;
 		}
 
@@ -441,7 +439,9 @@ const commands = (bot) => {
 				)
 				.then(() => {
 					setTimeout(() => {
-						ctx.reply(`4 - Вот такой ты значит человек, ${chatMember.user.first_name}...`);
+						ctx.reply(
+							`4 - Вот такой ты значит человек, ${chatMember.user.first_name}...`
+						);
 					}, 1500);
 
 					setTimeout(() => {
@@ -542,7 +542,7 @@ const commands = (bot) => {
 	}
 
 	function rageIsOK(ctx, time) {
-		if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
+		//if (ctx.chat?.id.toString() === process.env.TEST_SESSION_KEY) return true;
 
 		const lastTimeRage = ctx.session.lastTimeRage
 			? ctx.session.lastTimeRage
@@ -611,6 +611,49 @@ const commands = (bot) => {
 
 				user.monthWins = 0;
 			}
+		}
+	}
+
+	function wheniIsRage(ctx, time) {
+		const lastTimeRage = ctx.session.lastTimeRage;
+		const nowTime = Date.now();
+
+		if (nowTime - lastTimeRage > 5.184e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю: осталась неделя. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 4.32e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 6 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 3.456e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 5 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 2.592e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 4 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 1.728e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 3 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 8.64e7) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 2 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 6.48e7) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Остался 1 день. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else if (nowTime - lastTimeRage > 3.6e6) {
+			ctx.reply(
+				`Трехблядская ярость будет доступна в течении 24 часов. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+		} else {
+			ctx.reply(
+				`Трехблядская ярость будет доступна в течении ближайшего часа. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
 		}
 	}
 };
