@@ -28,9 +28,10 @@ const commands = (bot) => {
 	bot.api.setMyCommands([
 		{ command: 'reg', description: 'Присоединиться к вечеринке' },
 		{ command: 'pidor', description: 'Крутить барабан' },
-		{ command: 'pidorrage', description: 'Трёхблядская ярость' },
-		{ command: 'monthstats', description: 'Топ пидоров за месяц' },
-		{ command: 'pidorstats', description: 'Доска почета' },
+		{ command: 'pidorrage', description: 'Вызвать трёхбядскую ярость (+3)' },
+		{ command: 'monthstats', description: 'Топ за МЕСЯЦ' },
+		{ command: 'lastmonthstats', description: 'Топ предыдущего месяца' },
+		{ command: 'pidorstats', description: 'Общая статистика' },
 		{ command: 'escape', description: 'Сбежать с поля боя' },
 	]);
 
