@@ -14,7 +14,6 @@
  *
  * Объект пользователя в userList
  * @param {object} ctx.session.userList[i] - Хранилище данных пользователя
- *
  * @param {number} ctx.session.userList[i].id - индентификатор пользователя
  * @param {string} ctx.session.userList[i].user - имя
  * @param {string} ctx.session.userList[i].userName - никнейм
@@ -32,7 +31,7 @@ const commands = (bot) => {
 		{ command: 'pidorrage', description: 'Трёхблядская ярость' },
 		{ command: 'monthstats', description: 'Топ пидоров за месяц' },
 		{ command: 'pidorstats', description: 'Доска почета' },
-		{ command: 'delete', description: 'Сбежать с поля боя' },
+		{ command: 'escape', description: 'Сбежать с поля боя' },
 	]);
 
 	bot.command('start', async (ctx) => {
@@ -360,28 +359,7 @@ const commands = (bot) => {
 		}
 	});
 
-	bot.command('delete', async (ctx) => {
-		const chatMember = await ctx.chatMembers.getChatMember();
-		let isOldPlayer;
-
-		for (let i = 0; i <= ctx.session.userList.length - 1; i++) {
-			if (+chatMember.user.id === +ctx.session.userList[i].id) {
-				isOldPlayer = true;
-			}
-		}
-
-		if (isOldPlayer) {
-			await ctx.reply(
-				`Собрался сбежать с поля боя? Но не тут то было. Терпи! Ты в игре!`
-			);
-		} else {
-			await ctx.reply(
-				`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name} (@${chatMember.user.username}) - настоящий пидор! 🤡`
-			);
-		}
-	});
-
-	bot.command('testDelete', async (ctx) => {
+	bot.command('escape', async (ctx) => {
 		const chatMember = await ctx.chatMembers.getChatMember();
 		let isOldPlayer;
 
@@ -458,23 +436,23 @@ const commands = (bot) => {
 
 			await ctx
 				.reply(
-					`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) сбегает с поля боя. Грядет ТРЕХБЛЯДСКАЯ ЯРОСТЬ...`
+					`Игрок ${chatMember.user.first_name} (@${chatMember.user.username}) позорно сбегает с поля боя. Грядет ТРЕХБЛЯДСКАЯ ЯРОСТЬ...`
 				)
 				.then(() => {
 					setTimeout(() => {
-						ctx.reply('4 - удаляйте историю поиска 🤳 ');
+						ctx.reply(`4 - Вот такой ты значит человек, ${chatMember.user.first_name}...`);
 					}, 1500);
 
 					setTimeout(() => {
-						ctx.reply('3 - прячьте жен и детей 👬');
+						ctx.reply('3 - Не по масти тебе быть пидором!');
 					}, 3000);
 
 					setTimeout(() => {
-						ctx.reply('2 - молитесь Аллаху 👳‍♂️');
+						ctx.reply('2 - А вот вести себя по-пидорски - это прям твоё!');
 					}, 4500);
 
 					setTimeout(() => {
-						ctx.reply('1 - Пязда пришла! 🐔');
+						ctx.reply('1 - Чао! 🐔👋');
 					}, 6000);
 
 					setTimeout(() => {
@@ -485,7 +463,7 @@ const commands = (bot) => {
 				});
 		} else {
 			await ctx.reply(
-				`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name} (@${chatMember.user.username}) - настоящий пидор! 🤡`
+				`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name}, ты случаем не пидор? /reg - присоединиться 🤡`
 			);
 		}
 	});
