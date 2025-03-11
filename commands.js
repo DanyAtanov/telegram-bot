@@ -549,6 +549,7 @@ const commands = (bot) => {
 			: 0;
 		const nowTime = Date.now();
 
+		/* Прошло больше 162 часов */
 		if (nowTime - lastTimeRage > 5.832e8) {
 			return true;
 		} else {
@@ -618,41 +619,49 @@ const commands = (bot) => {
 		const lastTimeRage = ctx.session.lastTimeRage;
 		const nowTime = time;
 
-		if (nowTime - lastTimeRage < 5.184e8) {
+		/* прошло больше 161 часов  */
+		if (nowTime - lastTimeRage > 5.796e8) {
 			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю: осталась неделя. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+				`Трехблядская ярость будет доступна в течении часа!!!. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
-		} else if (nowTime - lastTimeRage < 4.32e8) {
+			/* прошло больше 144 часов  */
+		} else if (nowTime - lastTimeRage > 5.184e8) {
 			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Осталось 6 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+				`Трехблядская ярость будет доступна в течении 24х часов. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
-		} else if (nowTime - lastTimeRage < 3.456e8) {
-			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Осталось 5 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
-			);
-		} else if (nowTime - lastTimeRage < 2.592e8) {
-			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Осталось 4 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
-			);
-		} else if (nowTime - lastTimeRage < 1.728e8) {
-			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Осталось 3 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
-			);
-		} else if (nowTime - lastTimeRage < 8.64e7) {
-			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Осталось 2 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
-			);
-		} else if (nowTime - lastTimeRage < 6.48e7) {
+			/* больше 120 часов  */
+		} else if (nowTime - lastTimeRage > 4.32e8) {
 			ctx.reply(
 				`Трехблядская ярость доступна раз в неделю. Остался 1 день. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
-		} else if (nowTime - lastTimeRage < 3.6e6) {
+			/* больше 96 часов  */
+		} else if (nowTime - lastTimeRage > 3.456e8) {
 			ctx.reply(
-				`Трехблядская ярость будет доступна в течении 24 часов. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+				`Трехблядская ярость доступна раз в неделю. Осталось 2 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+			/* больше 72 часов  */
+		} else if (nowTime - lastTimeRage > 2.592e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 3 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+			/* больше 48 часов  */
+		} else if (nowTime - lastTimeRage > 1.728e8) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 4 дня. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+			/* больше 24 часов  */
+		} else if (nowTime - lastTimeRage > 8.64e7) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Осталось 5 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+			);
+			/* больше 18 часов  */
+		} else if (nowTime - lastTimeRage > 6.48e7) {
+			ctx.reply(
+				`Трехблядская ярость доступна раз в неделю. Остался 6 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
 		} else {
 			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+				`Трехблядская ярость доступна раз в неделю. Потерпите еще неделю. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
 		}
 	}
