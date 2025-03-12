@@ -657,7 +657,7 @@ const commands = (bot) => {
 			/* больше 18 часов  */
 		} else if (nowTime - lastTimeRage > 6.48e7) {
 			ctx.reply(
-				`Трехблядская ярость доступна раз в неделю. Остался 6 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
+				`Трехблядская ярость доступна раз в неделю. Осталось 6 дней. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
 		} else {
 			ctx.reply(
