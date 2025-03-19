@@ -1,11 +1,13 @@
 const testCommands = (bot) => {
 	bot.command('reset', async (ctx) => {
 		ctx.session.lastTime = 0;
+		ctx.session.lastTimeRage = 0;
 		ctx.session.userList = [];
 		ctx.session.winList = [];
 		ctx.session.currentMonthWinList = [];
 		ctx.session.lastMonthWinList = [];
 		ctx.session.todayPidor = null;
+		ctx.session.ragePidor = null;
 		ctx.currentMonth = null;
 
 		await ctx.reply('Очистка сессии. Данные игры обнулены.');
