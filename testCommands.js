@@ -13,6 +13,11 @@ const testCommands = (bot) => {
 		await ctx.reply('Очистка сессии. Данные игры обнулены.');
 	});
 
+	bot.command('reset', async (ctx) => {
+
+		await ctx.reply('Ага. Бегу-пляшу, ёпт...');
+	});
+
 	bot.command('user', async (ctx) => {
 		const chatMember = await ctx.chatMembers.getChatMember();
 
