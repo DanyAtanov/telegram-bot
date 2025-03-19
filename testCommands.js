@@ -1,5 +1,5 @@
 const testCommands = (bot) => {
-	bot.command('reset', async (ctx) => {
+	bot.command('resetMotherFucker', async (ctx) => {
 		ctx.session.lastTime = 0;
 		ctx.session.lastTimeRage = 0;
 		ctx.session.userList = [];
