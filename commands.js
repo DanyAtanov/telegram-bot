@@ -491,7 +491,7 @@ const commands = (bot) => {
 		for (let i = 0; i <= arr.length - 1; i++) {
 			message += `\n (${i + 1}) ${arr[i].name} (@${arr[i].nickName}) - ${
 				arr[i].wins
-			} раз(а)`;
+			} ${setEndings(arr[i].wins)}`;
 
 			if (i === 0) {
 				message += gold;
@@ -664,6 +664,16 @@ const commands = (bot) => {
 				`Трехблядская ярость доступна раз в неделю. Потерпите еще неделю. Последняя жертва: ${ctx.session.ragePidor.name}(@${ctx.session.ragePidor.nickName})`
 			);
 		}
+	}
+
+	function setEndings(wins) {
+		const number = Math.abs(+wins);
+		const lastDigit = number % 10;
+		const lastTwoDigits = number % 100;
+
+		if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'раз';
+		if (lastDigit >= 2 && lastDigit <= 4) return 'раза';
+		return 'раз';
 	}
 };
 
