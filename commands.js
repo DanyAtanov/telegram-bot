@@ -369,99 +369,13 @@ const commands = (bot) => {
 		}
 
 		if (isOldPlayer) {
+			// удаляем его нахуй
 			ctx.session.userList = ctx.session.userList.filter(
 				(item) => item.id !== chatMember.user.id
 			);
-
-			const now = Date.now();
-
-			ctx.session.lastTimeRage = now;
-
-			let ragePidor = await choosePidor(ctx, ctx.session.userList);
-
-			ctx.session.ragePidor = ragePidor;
-
-			if (ctx.session.winList.length) {
-				let newWinner;
-				for (let i = 0; i <= ctx.session.winList.length - 1; i++) {
-					if (+ragePidor.id === +ctx.session.winList[i].id) {
-						ctx.session.winList[i].wins += 3;
-						newWinner = false;
-						break;
-					} else {
-						newWinner = true;
-					}
-				}
-
-				if (newWinner) {
-					ragePidor.wins += 3;
-					ctx.session.winList.push(ragePidor);
-				}
-			} else {
-				ragePidor.wins += 3;
-				ctx.session.winList.push(ragePidor);
-			}
-
-			//за месяц
-			if (ctx.session.currentMonthWinList.length) {
-				let newWinner;
-				for (let i = 0; i <= ctx.session.currentMonthWinList.length - 1; i++) {
-					if (+ragePidor.id === +ctx.session.currentMonthWinList[i].id) {
-						if (!ctx.session.currentMonthWinList[i].monthWins) {
-							ragePidor.monthWins = 0;
-						}
-						ctx.session.currentMonthWinList[i].monthWins += 3;
-						newWinner = false;
-						break;
-					} else {
-						newWinner = true;
-					}
-				}
-
-				if (newWinner) {
-					if (!ragePidor.monthWins) {
-						ragePidor.monthWins = 0;
-					}
-					ragePidor.monthWins += 3;
-					ctx.session.currentMonthWinList.push(ragePidor);
-				}
-			} else {
-				if (!ragePidor.monthWins) {
-					ragePidor.monthWins = 0;
-				}
-				ragePidor.monthWins += 3;
-				ctx.session.currentMonthWinList.push(ragePidor);
-			}
-
-			await ctx
-				.reply(
-					`${chatMember.user.first_name} (@${chatMember.user.username}) позорно сбегает с поля боя. Грядет ТРЕХБЛЯДСКАЯ ЯРОСТЬ...`
-				)
-				.then(() => {
-					setTimeout(() => {
-						ctx.reply(
-							`4 - Вот такой ты значит человек, ${chatMember.user.first_name}...`
-						);
-					}, 1500);
-
-					setTimeout(() => {
-						ctx.reply('3 - Не по масти тебе быть пидором!');
-					}, 3000);
-
-					setTimeout(() => {
-						ctx.reply('2 - А вот вести себя по-пидорски - это прям твоё!');
-					}, 4500);
-
-					setTimeout(() => {
-						ctx.reply('1 - Чао! 🐔👋');
-					}, 6000);
-
-					setTimeout(() => {
-						ctx.reply(
-							`${chatMember.user.first_name} (@${chatMember.user.username}) ведёт себя по-пидорски и обрушивает ТРЕХБЛЯДСКУЮ ЯРОСТЬ (+3) на ${ragePidor.name} (@${ragePidor.nickName})`
-						);
-					}, 9000);
-				});
+			await ctx.reply(
+				`${chatMember.user.first_name} ведёт себя по-пидорски и сбегает с поля боя`
+			);
 		} else {
 			await ctx.reply(
 				`В игру не вступил, а уже собрался бежать? ${chatMember.user.first_name}, ты случаем не пидор? Тогда присоединяйся -  /reg`
