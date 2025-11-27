@@ -31,7 +31,7 @@ const commands = (bot) => {
 		{ command: 'pidorrage', description: 'Вызвать трёхбядскую ярость (+3)' },
 		{ command: 'monthstats', description: 'Топ за МЕСЯЦ' },
 		{ command: 'lastmonthstats', description: 'Топ предыдущего месяца' },
-		{ command: 'pidorstats', description: 'Общая статистика' },
+		{ command: 'pidorstats', description: 'Пидорская летопись' },
 		{ command: 'escape', description: 'Сбежать с поля боя' },
 	]);
 
