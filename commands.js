@@ -889,7 +889,7 @@ const commands = (bot) => {
 		let message = '';
 
 		for (let i = 0; i <= arr.length - 1; i++) {
-			message += `\n (${i + 1}) ${arr[i].name} (@${arr[i].nickName})`;
+			message += `\n 🧔🏻‍♀️ ${arr[i].name} (@${arr[i].nickName})`;
 		}
 
 		return message;
