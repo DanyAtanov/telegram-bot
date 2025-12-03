@@ -32,6 +32,7 @@ const commands = (bot) => {
 		{ command: 'monthstats', description: 'Топ за МЕСЯЦ' },
 		{ command: 'lastmonthstats', description: 'Топ предыдущего месяца' },
 		{ command: 'pidorstats', description: 'Пидорская летопись' },
+		{ command: 'players', description: 'Список игроков' },
 		{ command: 'escape', description: 'Сбежать с поля боя' },
 	]);
 
