@@ -360,6 +360,18 @@ const commands = (bot) => {
 		}
 	});
 
+	bot.command('players', async (ctx) => {
+		let userList = ctx.session.userList;
+
+		if (userList.length) {
+			await ctx.reply(
+				`За звание Пидора Дня борятся: \n ${whoIsInTheGame(userList)}`
+			);
+		} else {
+			await ctx.reply(`Еще никто не вошел в игру...`);
+		}
+	});
+
 	bot.command('escape', async (ctx) => {
 		const chatMember = await ctx.chatMembers.getChatMember();
 		let isOldPlayer;
@@ -870,6 +882,16 @@ const commands = (bot) => {
 		];
 
 		return pidorMessages;
+	}
+
+	function whoIsInTheGame(arr) {
+		let message = '';
+
+		for (let i = 0; i <= arr.length - 1; i++) {
+			message += `\n (${i + 1}) ${arr[i].name} (@${arr[i].nickName})`;
+		}
+
+		return message;
 	}
 };
 
