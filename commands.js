@@ -34,6 +34,7 @@ const commands = (bot) => {
 		{ command: 'pidorstats', description: 'Пидорская летопись' },
 		{ command: 'players', description: 'Список игроков' },
 		{ command: 'escape', description: 'Сбежать с поля боя' },
+		{ command: 'help', description: 'Пидорская помощь' },
 	]);
 
 	bot.command('start', async (ctx) => {
@@ -43,7 +44,9 @@ const commands = (bot) => {
 	});
 
 	bot.command('help', async (ctx) => {
-		await ctx.reply('/reg - войти в игру \n /players - список игроков');
+		await ctx.reply(
+			'Определяем ПИДОРА ДНЯ! Добавь бота в любую конфу и присоединяйся к лотерее! 😎 \n \n /reg - присоединиться к вечеринке \n /pidor - крутить барабан \n /pidorrage - Вызвать трёхбядскую ярость (+3) \n /monthstats - топ за месяц \n /lastmonthstats - Топ предыдущего месяца \n /pidorstats - пидорская летопись \n /players - Список игроков \n /escape - сбежать с поля боя'
+		);
 	});
 
 	bot.command('reg', async (ctx) => {
@@ -366,7 +369,7 @@ const commands = (bot) => {
 
 		if (userList.length) {
 			await ctx.reply(
-				`За звание Пидора Дня борятся: \n ${whoIsInTheGame(userList)}`
+				`Список потенциальных пидоров: \n ${whoIsInTheGame(userList)}`
 			);
 		} else {
 			await ctx.reply(`Еще никто не вошел в игру...`);
